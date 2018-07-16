@@ -1,3 +1,7 @@
+/**
+ * redis
+ * Created by wander on Sun.Nov.2017
+ */
 package gedis
 
 import (
@@ -89,6 +93,16 @@ func HGet(key, field string) (string, error) {
 		return "", strCmd.Err()
 	}
 	return strCmd.Val(), nil
+}
+
+//HMGet
+func HMGet(key string, fields ...string) ([]interface{}, error) {
+	statCmd := redisClient.HMGet(key, fields...)
+	if statCmd.Err() != nil {
+		log4go.Error("Database: redis HMSet: ", statCmd.Err())
+		return nil, statCmd.Err()
+	}
+	return statCmd.Val(), nil
 }
 
 func HMSet(key string, fields map[string]interface{}) (string, error) {
